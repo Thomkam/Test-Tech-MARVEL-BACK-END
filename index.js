@@ -21,6 +21,29 @@ app.get("/characters", async (req, res) => {
   }
 });
 
+app.get("/character/:characterId", async (req, res) => {
+  try {
+    const characterId = req.params.characterId;
+
+    const characterResponse = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/character/${characterId}?apiKey=${process.env.API_KEY}`
+    );
+
+    const comicsResponse = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/comics?apiKey=${process.env.API_KEY}&character=${characterId}`
+    );
+    const responseData = {
+      character: characterResponse.data,
+      /*       comics: comicsResponse.data,
+       */
+    };
+    res.status(200).json(responseData);
+    /* res.status(200).json(comicsResponse.data); */
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 app.get("/comics", async (req, res) => {
   try {
     const comics = req.query.comics || "";
@@ -34,10 +57,25 @@ app.get("/comics", async (req, res) => {
   }
 });
 
+app.get("/comic/:comicId", async (req, res) => {
+  try {
+    const comicId = req.params.comicId;
+
+    const comicResponse = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/comic/${comicId}?apiKey=${process.env.API_KEY}`
+    );
+
+    res.status(200).json(responseData);
+    /* res.status(200).json(comicsResponse.data); */
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This route does not exist" });
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("Server starteddddddDDDDDDDDDDDDDDDDDD");
+  console.log("Server started");
 });
