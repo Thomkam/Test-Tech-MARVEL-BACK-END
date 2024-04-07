@@ -66,19 +66,19 @@ app.get("/comic/:comicId", async (req, res) => {
     );
     console.log("====||||||||||======", { comicId });
 
-    /*  const responseData = {
+    const responseData = {
       comic: comicResponse.data,
       comics: comicsResponse.data,
-    }; */
+    };
 
-    /*   const charactersResponse = await axios.get(
+    const charactersResponse = await axios.get(
       `https://lereacteur-marvel-api.herokuapp.com/comic/${comicId}/characters?apiKey=${process.env.API_KEY}`
     );
- */
-    const comicData = comicResponse.data;
-    /*  const charactersData = charactersResponse.data;
 
-    comicData.characters = charactersData; */
+    const comicData = comicResponse.data;
+    const charactersData = charactersResponse.data;
+
+    comicData.characters = charactersData;
 
     res.status(200).json(comicData);
   } catch (error) {
